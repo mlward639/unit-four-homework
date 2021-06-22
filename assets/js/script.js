@@ -1,21 +1,22 @@
 //why does queryselector ('#') work but not getelementbyid ????
+//scores
 var highscores = document.querySelector('#highscores');
-
+//time
 var timerElement = document.querySelector("#timer");
 var timer;
 var timeLeft;
 var timeLeftDisplay = 'Time: ' + timeLeft
 timerElement.textContent = timeLeftDisplay
 var loseTime;
- 
-
-
+//questions/pages
 var blankPage = document.querySelector('#blank-page');
 var blankH1 = document.querySelector('#blank-h1');
 var blankH2 = document.querySelector('#blank-h2');
 var blankP = document.querySelector('#blank-p');
 var blankOL = document.querySelector('#blank-ol');
 var blankP2 = document.querySelector('#blank-p2');
+var blankP3 = document.querySelector('#blank-p3');
+var blankP4 = document.querySelector('#blank-p4');
 var blankInput = document.querySelector('#blank-input');
 var blankButton = document.querySelector('#blank-button');
 var blankButton2 = document.querySelector('#blank-button2')
@@ -27,24 +28,25 @@ var answerButtonA = ''
 var answerButtonB = ''
 var answerButtonC = ''
 var answerButtonD = ''
+var correctAnswerText = ''
+var wrongAnswerText = ''
+
+//functions
 
 function correctAnswer (){
-    blankP2.textContent = "Correct answer";
-    blankButton2.addEventListener("click", function() {
-        thirdPage();
-    });
-};
+    blankP3.textContent = "Correct answer";
+    console.log("correct answer");
+    blankButton2.disabled = false;
+    return;
+} 
 
-function wrongAnswer () {
-    blankP2.textContent = "Wrong answer";
-    blankButton2.addEventListener("click", function() {
-        loseTime;
-        thirdPage();
-    
-    });
-};
-
-
+function wrongAnswer (){
+    blankP3.textContent = "Wrong answer";
+    console.log("wrong answer");
+    loseTime;
+    blankButton2.disabled = false;
+    return;
+    };
 
 //initial page
 function initialPage () {
@@ -101,7 +103,7 @@ function initialPage () {
     timeLeft = 61;
     timeLeftDisplay = 'Time: ' + timeLeft
     blankButton.addEventListener("click", function() {
-        startTimer(); //make sure doesnt re-starttimer on each next button in future pages
+        //startTimer(); //make sure doesnt re-starttimer on each next button in future pages
         secondPage();
     });
     return;
@@ -112,9 +114,17 @@ initialPage()
 
 
 function secondPage () {
+    //format/style
     blankH1.style.display = "none";
     blankP.style.display = "block";
     blankP.style.textAlign = "left";
+    blankButton2.style.display = "block";
+    blankButton2.style.backgroundColor = "purple";
+    blankButton2.style.color = "white"
+    blankButton2.style.borderRadius = "8px";
+    blankButton2.style.padding = '1px 5px';
+    blankButton.style.display = "none";
+    blankInput.style.display = "none";
     
     //Question #
     blankH2.textContent = "Question 1";
@@ -126,33 +136,28 @@ function secondPage () {
     answerButtonB.textContent = "booleans";
     answerButtonC.textContent = "alerts";
     answerButtonD.textContent = "numbers";
+    //Answer
+    answerButtonA.addEventListener("click", wrongAnswer);
+    answerButtonB.addEventListener("click", wrongAnswer);
+    answerButtonC.addEventListener("click", correctAnswer)
+    answerButtonD.addEventListener("click", wrongAnswer);
 
     //Next button
     blankButton2.textContent = "Next"; 
-    //format/style
-    blankButton2.style.display = "block";
-    blankButton2.style.backgroundColor = "purple";
-    blankButton2.style.color = "white"
-    blankButton2.style.borderRadius = "8px";
-    blankButton2.style.padding = '1px 5px';
-    blankButton.style.display = "none";
-    blankInput.style.display = "none";
-    //ADD click to display right or wrong answer
-//trying to get it so that if they click the right answer, it runs correct answer fxn and if not, it runs the wrong answer fxn but it cant figure out how to log/know which button they've clicked to know which to run
-    if (answerButtonC.onclick) {
-        correctAnswer();
-    } else if (answerButtonA.onclick || answerButtonB.onclick || answerButtonD.onclick) {
-        wrongAnswer();
-    }
+    blankButton2.disabled = true;
+    blankButton2.addEventListener("click", function() {
+        thirdPage();    
+        //remove correct/wrong answer from last question
+        blankP3.textContent = ''
+        blankButton2.disabled = true;
 
-
-
-
+    });
     return; //are these returns needed???
 }
 //secondPage()  
 
 function thirdPage () {
+
     //Question #
     blankH2.textContent = "Question 2";
     //Question
@@ -162,7 +167,12 @@ function thirdPage () {
     answerButtonB.textContent = "curly brackets";
     answerButtonC.textContent = "parenthesis";
     answerButtonD.textContent = "square brackets";
-    //ADD click to display right or wrong answer
+    //Answers
+    answerButtonA.addEventListener("click", wrongAnswer);
+    answerButtonB.addEventListener("click", wrongAnswer);
+    answerButtonC.addEventListener("click", correctAnswer)
+    answerButtonD.addEventListener("click", wrongAnswer);
+
     blankButton2.addEventListener("click", function() {
         fourthPage();    
     });
@@ -171,6 +181,7 @@ function thirdPage () {
 //thirdPage()
 
 function fourthPage() {
+    //Question
     blankH2.textContent ="Question 3"
     blankP.textContent = "Arrays in JavaScript can be used to store ____."
     //Multiple choice
@@ -178,7 +189,12 @@ function fourthPage() {
     answerButtonB.textContent = "other arrays";
     answerButtonC.textContent = "booleans";
     answerButtonD.textContent = "all of the above";
-    //ADD click to display right or wrong answer
+    //Answer
+    answerButtonA.addEventListener("click", wrongAnswer);
+    answerButtonB.addEventListener("click", wrongAnswer);
+    answerButtonC.addEventListener("click", wrongAnswer)
+    answerButtonD.addEventListener("click", correctAnswer);
+    //Next button
     blankButton2.addEventListener("click", function() {
         fifthPage();    
     });
@@ -196,7 +212,12 @@ function fifthPage () {
     answerButtonB.textContent = "curly brackets";
     answerButtonC.textContent = "quotes";
     answerButtonD.textContent = "parenthesis";
-    //ADD click to display right or wrong answer
+    //Answer
+    answerButtonA.addEventListener("click", wrongAnswer);
+    answerButtonB.addEventListener("click", wrongAnswer);
+    answerButtonC.addEventListener("click", correctAnswer)
+    answerButtonD.addEventListener("click", wrongAnswer);
+    //Next
     blankButton2.addEventListener("click", function() {
         sixthPage(); 
     });
@@ -205,14 +226,21 @@ function fifthPage () {
 //fifthPage()
 
 function sixthPage(){
+    //Question
     blankH2.textContent = "Question 5";
     blankP.textContent = "A very useful tool used during development and debugging for printing content to the debugger is: "
+    blankP3.textContent = ''
     //Multiple choice
     answerButtonA.textContent = "javascript";
     answerButtonB.textContent = "terminal/bash";
     answerButtonC.textContent = "for loops";
     answerButtonD.textContent = "console.log";
-    //ADD click to display right or wrong answer
+    //Answer
+    answerButtonA.addEventListener("click", wrongAnswer);
+    answerButtonB.addEventListener("click", wrongAnswer);
+    answerButtonC.addEventListener("click", wrongAnswer)
+    answerButtonD.addEventListener("click", correctAnswer);
+    //Next
     blankButton2.addEventListener("click", function() {
         gameComplete(); 
     });
@@ -239,26 +267,31 @@ function gameComplete() {
 //gameComplete()
 
 function highscores () {
+    blankH2.style.display = "none";
+    blankP.style.display = "none";
     blankOL.style.display = "none";
     //list of entered initials-score. will need to store to local source. also look at similar assignment (todos)
     //2 buttons: go back and clear highschores
-
+    blankButton.addEventListener("click", function() {
+        highscores(); 
+})
 }
 //highscores()
 
 
 //timer
+/*
 function startTimer() {
     //set timer
     timer = setInterval(function() {
       timeLeft--;
       timerElement.textContent = timeLeft + "seconds"
-      /* where to put           clearInterval(timer); */
+      /* where to put           clearInterval(timer); 
         
-      } 
+      })
       if (loseTime) {
           timeLeft = timeLeft-10
       }
     }, 1000);
 }
-
+*/
