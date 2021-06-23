@@ -11,7 +11,6 @@ var timer;
 var timeLeft;
 var timeLeftDisplay = 'Time: ' + timeLeft
 timerElement.textContent = timeLeftDisplay
-var loseTime;
 //questions/pages
 var blankPage = document.querySelector('#blank-page');
 var blankH1 = document.querySelector('#blank-h1');
@@ -44,6 +43,7 @@ var liHSD = '';
 
 //functions
 
+
 function correctAnswer (){
     blankP3.textContent = "Correct answer";
     console.log("correct answer");
@@ -54,10 +54,14 @@ function correctAnswer (){
 function wrongAnswer (){
     blankP3.textContent = "Wrong answer";
     console.log("wrong answer");
-    loseTime;
     blankButton2.disabled = false;
+    loseTimePenalty()
     return;
-    };
+};
+
+function loseTimePenalty () {
+    timeLeft -=10;
+}
 
 //initial page
 function initialPage () {
@@ -115,6 +119,7 @@ function initialPage () {
     blankInput.style.display = "none";
     timeLeft = 61;
     timeLeftDisplay = 'Time: ' + timeLeft
+
     //getTime(); ADD ONCE FINISHED WITH FUNCTION
     blankButton.addEventListener("click", function() {
         startTimer(); //make sure doesnt re-starttimer on each next button in future pages
@@ -122,7 +127,6 @@ function initialPage () {
     });
     return;
 }
-
 
 initialPage()
 
@@ -323,6 +327,56 @@ function highscoresPage () {
 }
 //highscoresPage()
 
+
+var storeScore = {
+    initials: initials.value,
+    timeLeft: timeLeft.value,
+}
+
+function storeTimeInitials(){
+    localStorage.setItem("storeScore", JSON.stringify(storeScore));
+    console.log("storeScore: " + storeScore);
+
+}
+
+/* function storeInitials(){
+    initials = blankInput.value.trim();
+    storedInitials = [initials];
+    localStorage.setItem("storedInitials", JSON.stringify(storedInitials));
+    console.log("storedinitials post string: " + storedInitials)
+};
+function getAllTimes(){
+    storedTime = JSON.parse(localStorage.getItem("storedTimeLeft"));
+    console.log("get Stored time: " + storedTime); 
+
+} */
+function getTimeInitials(){
+    var lastScore = JSON.parse(localStorage.getItem("storeScore"));
+    if (lastScore !== null){
+        document.querySelector(".message").textContent = lastScore
+    }
+    
+}
+    /* storedInitials = JSON.parse(localStorage.getItem("storedInitials"));
+    console.log("get storedInitials: " + storedInitials);
+}
+
+function printHighscores (){
+    for (i=0; i < storedInitials.length; i++){
+        if (storedInitials.length >= 0){
+        liHS = document.createElement("li");
+        liHS.text(storedInitials[i] + "-" + storedTime[i]);
+        blankOL2.appendChild(liHS);
+        }
+        else if (storedInitials.length = 0) {
+            liHS = document.createElement("li");
+            liHS.text("No highscores to display");
+            blankOL2.appendChild(liHS);
+        }
+    }
+
+}
+*/
  
 //timer
 function startTimer() {
@@ -330,10 +384,7 @@ function startTimer() {
     timer = setInterval(function() {
       timeLeft--;
       timerElement.textContent = timeLeft + "seconds";
-      if (loseTime) {
-          timeLeft =- 10 //not working
-      }
-    }, 1000);
+      }, 1000);
 }
 
 /* fix timer display */
