@@ -9,8 +9,13 @@
     margin-left: 25px;
     font-weight: bold;
     font-size: 18px;
+    border: none;
+    background-color: rgba(75, 0, 75, 0);
+}
 
+header {
     background-color: rgba(75, 0, 75, 0.226);
+    padding: 10px;
 }
 
 #timer {
@@ -29,7 +34,12 @@ body {
 h1 {
     font-size: 42px;
     text-align: center;
+    margin-top: 50px;
 } 
+
+.wrapper {
+    text-align: center;
+}
 
 h2 {
     font-size: 28px;

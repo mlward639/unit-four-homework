@@ -20,6 +20,7 @@ var blankOL = document.querySelector('#blank-ol');
 var blankP2 = document.querySelector('#blank-p2');
 var blankP3 = document.querySelector('#blank-p3');
 var blankP4 = document.querySelector('#blank-p4');
+var blankForm = document.querySelector("#highscore-initials-form")
 var blankOL2 = document.querySelector('#blank-ol2');
 var blankInput = document.querySelector('#blank-input');
 var blankButton = document.querySelector('#blank-button');
@@ -40,16 +41,16 @@ var liHSB = '';
 var liHSC = '';
 var liHSD = '';
 
+//click highscores -- > highscore page
+highscores.addEventListener('click', highscoresPage);
 
 //functions
-
-
 function correctAnswer (){
     blankP3.textContent = "Correct answer";
     console.log("correct answer");
     blankButton2.disabled = false;
     return;
-} 
+};
 
 function wrongAnswer (){
     blankP3.textContent = "Wrong answer";
@@ -61,7 +62,7 @@ function wrongAnswer (){
 
 function loseTimePenalty () {
     timeLeft -=10;
-}
+};
 
 //initial page
 function initialPage () {
@@ -114,22 +115,23 @@ function initialPage () {
     blankButton.style.color = "white"
     blankButton.style.borderRadius = "8px";
     blankButton.style.padding = '1px 5px';
-    //how to center the submit button;
+    //hide elements not to be seen yet
     blankButton2.style.display = "none";
     blankInput.style.display = "none";
-    timeLeft = 61;
+    blankForm.style.display = "none";
+    blankP4.style.display = "none";
+    timerElement.style.display = "none"
     timeLeftDisplay = 'Time: ' + timeLeft
-
-    //getTime(); ADD ONCE FINISHED WITH FUNCTION
     blankButton.addEventListener("click", function() {
-        startTimer(); //make sure doesnt re-starttimer on each next button in future pages
+        timeLeft = 61;
+        timerElement.style.display = "block";
+        startTimer();  
         secondPage();
     });
     return;
 }
 
 initialPage()
-
 
 function secondPage () {
     //format/style
@@ -168,7 +170,6 @@ function secondPage () {
         //remove correct/wrong answer from last question
         blankP3.textContent = ''
         blankButton2.disabled = true;
-
     });
     return; //are these returns needed???
 }
@@ -263,6 +264,7 @@ function sixthPage(){
         gameComplete(); 
         storeTime();
         clearInterval(timer);
+        timerElement.style.display = "none";
         //store timeLeft to local storage
     });
     return;
@@ -271,15 +273,15 @@ function sixthPage(){
 
 function gameComplete() {
     blankH2.textContent = "All done!";
-    blankP.textContent = "Your final score is: " // + variaable that equals the score
+    blankP.textContent = "Your final score is: " + timeLeft
+    console.log("time left " + timeLeft)
+    blankForm.style.display = "inline-block";
     blankOL.style.display = "none";
-    //blankP2.textContent = "Enter your initials here:    "
     blankP2.style.display = "inline-block";
     blankInput.style.display = "inline-block";
     blankButton.style.display = "inline-block";
     blankButton.textContent = "Submit";
     blankButton2.style.display = "none";
-    // change name of blanbk button from NEXT to SUBMIT -> also link to highscores page in the highscores part in the header
     blankButton.addEventListener("click", function() {
         highscoresPage(); 
         storeTime();
@@ -296,7 +298,7 @@ function highscoresPage () {
     blankOL.style.display = "none";
     blankOL2.style.display = "block" //see if need to hide this in earlier sections
     blankP4.textContent
-    printHighscores()
+    //printHighscores()
 
     /* try if printfxn doesnt work
     if (storedTime.length > 0 && storedInitials.length > 0){
