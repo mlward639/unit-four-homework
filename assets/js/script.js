@@ -1,10 +1,7 @@
-//why does queryselector ('#') work but not getelementbyid ????
 //scores
 var highscores = document.querySelector('#highscores');
-var storedTime = [];
-var storedInitials = [];
-var printInitials = '';
-var printTime = '';
+var storedTime=[];
+var storedInitials=[];
 //time
 var timerElement = document.querySelector("#timer");
 var timer;
@@ -25,6 +22,9 @@ var blankOL2 = document.querySelector('#blank-ol2');
 var blankInput = document.querySelector('#blank-input');
 var blankButton = document.querySelector('#blank-button');
 var blankButton2 = document.querySelector('#blank-button2')
+var blankButton3 = document.querySelector('#blank-button3')
+var blankButton4 = document.querySelector('#blank-button4')
+
 var liA = '';
 var liB = '';
 var liC = '';
@@ -36,10 +36,8 @@ var answerButtonD = '';
 var correctAnswerText = '';
 var wrongAnswerText = '';
 var initials = '';
-var liHS = '';
+var liHSA = document.querySelector('#liHSA');
 var liHSB = '';
-var liHSC = '';
-var liHSD = '';
 
 //click highscores -- > highscore page
 highscores.addEventListener('click', highscoresPage);
@@ -66,18 +64,24 @@ function loseTimePenalty () {
 
 //initial page
 function initialPage () {
+    //text to display on webpage
     blankH1.textContent = "Coding Quiz Challenge";
     blankP.textContent = "Try to answer the following code related questions within the time limit. Keep in mind that incorrect answers will penalize your score-time by ten seconds."
     blankP.style.textAlign = "center";
     //Multiple choice
+    //create li's for the 4 multiple choice answers
     liA = document.createElement("li");
+    //create blank buttons A-D to display answer choices 
     answerButtonA = document.createElement("button");
     answerButtonA.textContent = '';
+    //format button
     answerButtonA.style.padding = '1px 5px';
     answerButtonA.style.backgroundColor = "rgb(75, 0, 75)";
     answerButtonA.style.color = "white"
     answerButtonA.style.borderRadius = "8px";
+    //append each button to corresponding li
     liA.appendChild(answerButtonA);
+    //append each li to ol
     blankOL.appendChild(liA);
     liB = document.createElement("li");
     answerButtonB = document.createElement("button");
@@ -120,8 +124,12 @@ function initialPage () {
     blankInput.style.display = "none";
     blankForm.style.display = "none";
     blankP4.style.display = "none";
+    blankButton3.style.display = "none";
+    blankOL2.style.display = "none";
+    liHSA.style.display = "none";
     timerElement.style.display = "none"
     timeLeftDisplay = 'Time: ' + timeLeft
+    //if click button, start game by starting timer and going to next page
     blankButton.addEventListener("click", function() {
         timeLeft = 61;
         timerElement.style.display = "block";
@@ -145,7 +153,6 @@ function secondPage () {
     blankButton2.style.padding = '1px 5px';
     blankButton.style.display = "none";
     blankInput.style.display = "none";
-    
     //Question #
     blankH2.textContent = "Question 1";
     //Question
@@ -161,22 +168,22 @@ function secondPage () {
     answerButtonB.addEventListener("click", wrongAnswer);
     answerButtonC.addEventListener("click", correctAnswer)
     answerButtonD.addEventListener("click", wrongAnswer);
-
     //Next button
     blankButton2.textContent = "Next"; 
+    //can't click next button until answer is chosen
     blankButton2.disabled = true;
     blankButton2.addEventListener("click", function() {
         thirdPage();    
         //remove correct/wrong answer from last question
         blankP3.textContent = ''
+        //allow to click next button
         blankButton2.disabled = true;
     });
-    return; //are these returns needed???
+    return; //question for grader... are all these returns needed?
 }
 //secondPage()  
 
 function thirdPage () {
-
     //Question #
     blankH2.textContent = "Question 2";
     //Question
@@ -191,7 +198,7 @@ function thirdPage () {
     answerButtonB.addEventListener("click", wrongAnswer);
     answerButtonC.addEventListener("click", correctAnswer)
     answerButtonD.addEventListener("click", wrongAnswer);
-
+    //click next button goes to next page
     blankButton2.addEventListener("click", function() {
         fourthPage();    
     });
@@ -262,16 +269,18 @@ function sixthPage(){
     //Next
     blankButton2.addEventListener("click", function() {
         gameComplete(); 
-        storeTime();
         clearInterval(timer);
+        storeTime();
         timerElement.style.display = "none";
-        //store timeLeft to local storage
     });
     return;
 }
 //sixthPage()
 
 function gameComplete() {
+    //stop timer
+    clearInterval(timer);
+    //page text
     blankH2.textContent = "All done!";
     blankP.textContent = "Your final score is: " + timeLeft
     console.log("time left " + timeLeft)
@@ -280,105 +289,86 @@ function gameComplete() {
     blankP2.style.display = "inline-block";
     blankInput.style.display = "inline-block";
     blankButton.style.display = "inline-block";
-    blankButton.textContent = "Submit";
+    //submit
+    blankButton3.textContent = "Submit";
     blankButton2.style.display = "none";
-    blankButton.addEventListener("click", function() {
-        highscoresPage(); 
-        storeTime();
+    blankButton.style.display = "none";
+    blankP3.style.display = "none";
+    blankButton3.style.display = "block";
+    //restart button
+    blankButton4.textContent = "Restart"
+    blankButton3.style.backgroundColor = "purple";
+    blankButton3.style.color = "white"
+    blankButton3.style.borderRadius = "8px";
+    blankButton3.style.padding = '1px 5px';
+    blankButton3.style.marginLeft='203px'
+    blankButton4.style.display = "block";
+    blankButton4.style.backgroundColor = "purple";
+    blankButton4.style.color = "white"
+    blankButton4.style.borderRadius = "8px";
+    blankButton4.style.padding = '1px 5px';
+    blankButton4.style.marginLeft='203px'
+    //click submit button to go to next page (highscores), store time & initials
+    blankButton3.addEventListener("click", function() {
         storeInitials();
+        highscoresPage()
     })
+    //click restart button to go back to beginning of quiz
+    blankButton4.addEventListener("click", initialPage);
     return;
 }
 //gameComplete()
 
-//finish highscores
+//highscores page
 function highscoresPage () {
     blankH2.style.display = "none";
     blankP.style.display = "none";
-    blankOL.style.display = "none";
-    blankOL2.style.display = "block" //see if need to hide this in earlier sections
-    blankP4.textContent
-    //printHighscores()
+    blankP2.style.display = "none";
+    blankForm.style.display = "none";
+    blankButton3.style.display = "none";
+    blankH1.style.display = "none";
+    blankButton.style.display = "none";
+    blankOL2.style.display = "block"; 
+    liHSA.style.display = "block";
+    blankP4.style.display = "block";
+    liHSA.textContent = initials + " — " + timeLeft;
+    console.log("stored time and stored initials: " + storedTime + storedInitials)
 
-    /* try if printfxn doesnt work
     if (storedTime.length > 0 && storedInitials.length > 0){
-        liHSA = document.createElement("li");
-        liHSA.innerHTML = storedTime[1] + "-" + storedInitials[1]; //not showing bc says they are undefined??? but they are showing up 
-        console.log("stored time: " + storedTime + "stored intials: " + storedInitials)  
-        blankOL2.appendChild(liHSA);
-        liHSA.style.backgroundColor = "rgba(75, 0, 75, 0.226)";
-        console.log("LIHSA content: " + liHSA);
-    } if (storedTime.length > 1 && storedInitials.length > 1){
         liHSB = document.createElement("li");
-        liHSB.innerHTML = storedTime[1] + "-" + storedInitials[1]; //not showing bc says they are undefined??? but they are showing up 
-        blankOL2.appendChild(liHSB);
+        liHSB.textContent = storedTime + "-" + storedInitials; 
+        blankOL2.appendChild(liHSA);
         liHSB.style.backgroundColor = "rgba(75, 0, 75, 0.226)";
-    } if (storedTime.length > 2 && storedInitials.length > 2){
-        liHSC and D, 
     }
-    //try to figure out for loop here */
-
-    //list of entered initials-score. will need to store to local source. also look at similar assignment (todos)
-    //2 buttons: go back and clear highscores
-    //why does timer restart here, even when i put     clearInterval(timer); again here......?????
-    timerElement.style.display = "none" //remove if can get timer to stop restarting on this page
-    blankButton.addEventListener("click", function() {
-        initialPage(); 
-    })
+    //click restart button to go back to beginning of quiz
+    blankButton4.addEventListener("click", reLoad());
     return;
 }
-//highscoresPage()
+//highscoresPage() */
 
-
-var storeScore = {
-    initials: initials.value,
-    timeLeft: timeLeft.value,
+//other functions
+function storeTime(){
+    localStorage.setItem("storedTime", JSON.stringify(timeLeft));
+    console.log("storedTime post string: " + timeLeft);
 }
 
-function storeTimeInitials(){
-    localStorage.setItem("storeScore", JSON.stringify(storeScore));
-    console.log("storeScore: " + storeScore);
-
-}
-
-/* function storeInitials(){
+function storeInitials(){
     initials = blankInput.value.trim();
-    storedInitials = [initials];
-    localStorage.setItem("storedInitials", JSON.stringify(storedInitials));
-    console.log("storedinitials post string: " + storedInitials)
+    localStorage.setItem("storedInitials", JSON.stringify(initials));
+    console.log("storedinitials post string: " + initials)
 };
-function getAllTimes(){
-    storedTime = JSON.parse(localStorage.getItem("storedTimeLeft"));
+
+function getStoredTime(){
+    storedTime = JSON.parse(localStorage.getItem("storedTime"));
     console.log("get Stored time: " + storedTime); 
 
-} */
-function getTimeInitials(){
-    var lastScore = JSON.parse(localStorage.getItem("storeScore"));
-    if (lastScore !== null){
-        document.querySelector(".message").textContent = lastScore
+} 
+function getStoredInitials(){
+    storedInitials = JSON.parse(localStorage.getItem("storedTime"));
+    if (storedTime !== null){
+        document.querySelector(".message").textContent = "No entries"
     }
-    
 }
-    /* storedInitials = JSON.parse(localStorage.getItem("storedInitials"));
-    console.log("get storedInitials: " + storedInitials);
-}
-
-function printHighscores (){
-    for (i=0; i < storedInitials.length; i++){
-        if (storedInitials.length >= 0){
-        liHS = document.createElement("li");
-        liHS.text(storedInitials[i] + "-" + storedTime[i]);
-        blankOL2.appendChild(liHS);
-        }
-        else if (storedInitials.length = 0) {
-            liHS = document.createElement("li");
-            liHS.text("No highscores to display");
-            blankOL2.appendChild(liHS);
-        }
-    }
-
-}
-*/
  
 //timer
 function startTimer() {
@@ -386,7 +376,10 @@ function startTimer() {
     timer = setInterval(function() {
       timeLeft--;
       timerElement.textContent = timeLeft + "seconds";
-      }, 1000);
+      if (timeLeft <= 0) {
+          gameComplete();
+          blankP.textContent = "You did not finish in time. Try again."
+      }
+    }, 1000);
 }
  
-/* media queries --if needed???*/

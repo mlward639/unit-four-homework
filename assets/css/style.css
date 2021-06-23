@@ -49,15 +49,29 @@ h2 {
     font-size: 18px;
 }
 
+#blank-p4 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
 section {
     margin-left: 440px;
     margin-right: 440px;
 }
  
 
-ol {
+#blank-ol {
     list-style-type: lower-alpha;
 }
+
+#blank-ol2 {
+    list-style-type: none;
+}
+
+#liHSA {
+    font-size: 22px;
+}
+
 
 
   
