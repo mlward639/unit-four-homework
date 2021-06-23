@@ -388,6 +388,5 @@ function startTimer() {
       timerElement.textContent = timeLeft + "seconds";
       }, 1000);
 }
-
-/* fix timer display */
-/* media queries */
+ 
+/* media queries --if needed???*/
