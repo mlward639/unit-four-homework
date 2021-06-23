@@ -1,6 +1,10 @@
 //why does queryselector ('#') work but not getelementbyid ????
 //scores
 var highscores = document.querySelector('#highscores');
+var storedTime = [];
+var storedInitials = [];
+var printInitials = '';
+var printTime = '';
 //time
 var timerElement = document.querySelector("#timer");
 var timer;
@@ -17,6 +21,7 @@ var blankOL = document.querySelector('#blank-ol');
 var blankP2 = document.querySelector('#blank-p2');
 var blankP3 = document.querySelector('#blank-p3');
 var blankP4 = document.querySelector('#blank-p4');
+var blankOL2 = document.querySelector('#blank-ol2');
 var blankInput = document.querySelector('#blank-input');
 var blankButton = document.querySelector('#blank-button');
 var blankButton2 = document.querySelector('#blank-button2')
@@ -24,12 +29,18 @@ var liA = '';
 var liB = '';
 var liC = '';
 var liD = '';
-var answerButtonA = ''
-var answerButtonB = ''
-var answerButtonC = ''
-var answerButtonD = ''
-var correctAnswerText = ''
-var wrongAnswerText = ''
+var answerButtonA = '';
+var answerButtonB = '';
+var answerButtonC = '';
+var answerButtonD = '';
+var correctAnswerText = '';
+var wrongAnswerText = '';
+var initials = '';
+var liHS = '';
+var liHSB = '';
+var liHSC = '';
+var liHSD = '';
+
 
 //functions
 
@@ -91,6 +102,8 @@ function initialPage () {
     liD.appendChild(answerButtonD);
     blankOL.appendChild(liD);
     blankOL.style.display = "none";
+    line = document.createElement("hr");
+    blankOL.appendChild(line);
     //button
     blankButton.textContent = "Start Quiz";
     blankButton.style.backgroundColor = "purple";
@@ -102,8 +115,9 @@ function initialPage () {
     blankInput.style.display = "none";
     timeLeft = 61;
     timeLeftDisplay = 'Time: ' + timeLeft
+    //getTime(); ADD ONCE FINISHED WITH FUNCTION
     blankButton.addEventListener("click", function() {
-        //startTimer(); //make sure doesnt re-starttimer on each next button in future pages
+        startTimer(); //make sure doesnt re-starttimer on each next button in future pages
         secondPage();
     });
     return;
@@ -243,6 +257,9 @@ function sixthPage(){
     //Next
     blankButton2.addEventListener("click", function() {
         gameComplete(); 
+        storeTime();
+        clearInterval(timer);
+        //store timeLeft to local storage
     });
     return;
 }
@@ -252,7 +269,7 @@ function gameComplete() {
     blankH2.textContent = "All done!";
     blankP.textContent = "Your final score is: " // + variaable that equals the score
     blankOL.style.display = "none";
-    blankP2.textContent = "Enter your initials here:    "
+    //blankP2.textContent = "Enter your initials here:    "
     blankP2.style.display = "inline-block";
     blankInput.style.display = "inline-block";
     blankButton.style.display = "inline-block";
@@ -260,38 +277,64 @@ function gameComplete() {
     blankButton2.style.display = "none";
     // change name of blanbk button from NEXT to SUBMIT -> also link to highscores page in the highscores part in the header
     blankButton.addEventListener("click", function() {
-        highscores(); 
+        highscoresPage(); 
+        storeTime();
+        storeInitials();
     })
     return;
 }
 //gameComplete()
 
-function highscores () {
+//finish highscores
+function highscoresPage () {
     blankH2.style.display = "none";
     blankP.style.display = "none";
     blankOL.style.display = "none";
+    blankOL2.style.display = "block" //see if need to hide this in earlier sections
+    blankP4.textContent
+    printHighscores()
+
+    /* try if printfxn doesnt work
+    if (storedTime.length > 0 && storedInitials.length > 0){
+        liHSA = document.createElement("li");
+        liHSA.innerHTML = storedTime[1] + "-" + storedInitials[1]; //not showing bc says they are undefined??? but they are showing up 
+        console.log("stored time: " + storedTime + "stored intials: " + storedInitials)  
+        blankOL2.appendChild(liHSA);
+        liHSA.style.backgroundColor = "rgba(75, 0, 75, 0.226)";
+        console.log("LIHSA content: " + liHSA);
+    } if (storedTime.length > 1 && storedInitials.length > 1){
+        liHSB = document.createElement("li");
+        liHSB.innerHTML = storedTime[1] + "-" + storedInitials[1]; //not showing bc says they are undefined??? but they are showing up 
+        blankOL2.appendChild(liHSB);
+        liHSB.style.backgroundColor = "rgba(75, 0, 75, 0.226)";
+    } if (storedTime.length > 2 && storedInitials.length > 2){
+        liHSC and D, 
+    }
+    //try to figure out for loop here */
+
     //list of entered initials-score. will need to store to local source. also look at similar assignment (todos)
-    //2 buttons: go back and clear highschores
+    //2 buttons: go back and clear highscores
+    //why does timer restart here, even when i put     clearInterval(timer); again here......?????
+    timerElement.style.display = "none" //remove if can get timer to stop restarting on this page
     blankButton.addEventListener("click", function() {
-        highscores(); 
-})
+        initialPage(); 
+    })
+    return;
 }
-//highscores()
+//highscoresPage()
 
-
+ 
 //timer
-/*
 function startTimer() {
     //set timer
     timer = setInterval(function() {
       timeLeft--;
-      timerElement.textContent = timeLeft + "seconds"
-      /* where to put           clearInterval(timer); 
-        
-      })
+      timerElement.textContent = timeLeft + "seconds";
       if (loseTime) {
-          timeLeft = timeLeft-10
+          timeLeft =- 10 //not working
       }
     }, 1000);
 }
-*/
+
+/* fix timer display */
+/* media queries */
